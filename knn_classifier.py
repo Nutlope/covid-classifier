@@ -1,5 +1,5 @@
 # USAGE
-# python knn_classifier.py --dataset kaggle_dogs_vs_cats
+# python knn_classifier.py --dataset covid_images
 
 # import the necessary packages
 from sklearn.neighbors import KNeighborsClassifier
