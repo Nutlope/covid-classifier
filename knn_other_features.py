@@ -1,7 +1,9 @@
 # USAGE
-# python knn_classifier.py --dataset covid_images
+# python knn_other_features.py --dataset covid_images
 
 # import the necessary packages
+from skimage.filters import prewitt_h,prewitt_v
+from skimage.feature import greycomatrix, greycoprops
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
@@ -25,7 +27,7 @@ def image_to_feature_vector(image, size=(32, 32)):
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,
 	help="path to input dataset")
-ap.add_argument("-k", "--neighbors", type=int, default=25,
+ap.add_argument("-k", "--neighbors", type=int, default=1,
 	help="# of nearest neighbors for classification")
 ap.add_argument("-j", "--jobs", type=int, default=-1,
 	help="# of jobs for k-NN distance (-1 uses all available cores)")
@@ -42,13 +44,14 @@ labels = []
 # loop over the input images
 for (i, imagePath) in enumerate(imagePaths):
 	# load the image and extract the class label
-	image = cv2.imread(imagePath)	
+	image = cv2.imread(imagePath)
+
 	label = imagePath.split(os.path.sep)[-1].split(".")[0]
 
 	# extract raw pixel intensity features
-	pixels = image_to_feature_vector(image)
-	# update the raw images and labels matrices,
-	rawImages.append(pixels)
+	pixels = image_to_feature_vector(image)     
+    comatrix = greycomatrix(pixels, [1], [0, np.pi/4, np.pi/2, 3*np.pi/4], levels=4)
+    rawImages.append(comatrix)
 	labels.append(label)
 
 	# show an update every 100 images
@@ -110,26 +113,26 @@ print("[INFO] raw pixel accuracy: {:.2f}%".format(acc * 100))
 
 
 
-for i, item in enumerate(trainRL):
-	if item == 'noncovid':
-		trainRL[i] = 0
-	else:
-		trainRL[i] = 1
+# for i, item in enumerate(trainRL):
+# 	if item == 'noncovid':
+# 		trainRL[i] = 0
+# 	else:
+# 		trainRL[i] = 1
 
-print("trainRI is", trainRI)
+# print("trainRI is", trainRI)
 
-y = trainRL.astype(np.integer)
-# plot_decision_regions(trainRI, y, clf=model, legend=2)
+# y = trainRL.astype(np.integer)
+# # plot_decision_regions(trainRI, y, clf=model, legend=2)
 
-pca = PCA(n_components = 2)
-X_train2 = pca.fit_transform(trainRI)
-model.fit(X_train2, y)
-plot_decision_regions(X_train2, y, clf=model, legend=2)
+# pca = PCA(n_components = 2)
+# X_train2 = pca.fit_transform(trainRI)
+# model.fit(X_train2, y)
+# plot_decision_regions(X_train2, y, clf=model, legend=2)
 
-# Adding axes annotations
-# plt.xlabel("X")
-# plt.ylabel("Y")
-plt.title("K nearest neighbor algorithm with PCA & K=1")
-plt.show()
+# # Adding axes annotations
+# # plt.xlabel("X")
+# # plt.ylabel("Y")
+# plt.title("K nearest neighbor algorithm with PCA & K=1")
+# plt.show()
 
 # https://towardsdatascience.com/knn-visualization-in-just-13-lines-of-code-32820d72c6b6

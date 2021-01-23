@@ -1,8 +1,9 @@
 # USAGE
-# python knn_classifier.py --dataset covid_images
+# python knn_edge.py --dataset covid_images
 
 # import the necessary packages
 from sklearn.decomposition import PCA
+from skimage.filters import prewitt_h,prewitt_v
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from imutils import paths
@@ -25,7 +26,7 @@ def image_to_feature_vector(image, size=(32, 32)):
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,
 	help="path to input dataset")
-ap.add_argument("-k", "--neighbors", type=int, default=25,
+ap.add_argument("-k", "--neighbors", type=int, default=1,
 	help="# of nearest neighbors for classification")
 ap.add_argument("-j", "--jobs", type=int, default=-1,
 	help="# of jobs for k-NN distance (-1 uses all available cores)")
@@ -46,7 +47,7 @@ for (i, imagePath) in enumerate(imagePaths):
 	label = imagePath.split(os.path.sep)[-1].split(".")[0]
 
 	# extract raw pixel intensity features
-	pixels = image_to_feature_vector(image)
+	pixels = image_to_feature_vector(prewitt_h(image))
 	# update the raw images and labels matrices,
 	rawImages.append(pixels)
 	labels.append(label)
