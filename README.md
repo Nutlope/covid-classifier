@@ -1,6 +1,6 @@
 # Classifying Covid CT scans
 
-![Visualization of classification results](.visualization.png)
+![Visualization of classification results](./visualization.png)
 
 This is my submission for the [CT diagnosis of Covid-19 challenge](https://covid-ct.grand-challenge.org/CT-diagnosis-of-COVID-19/). I used machine learning to take in chest CT images (from [this repostory](https://github.com/UCSD-AI4H/COVID-CT), which contains 748 Chest CT Images from a senior radiologist in Wuhan) and classify them as either having or not having covid.
 
