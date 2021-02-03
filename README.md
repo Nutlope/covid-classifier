@@ -25,3 +25,7 @@ If you wish to run the script, you'll need Python 3.7 with the following modules
 - imutils
 - numpy
 - cv2
+
+# Next Steps
+
+I'd like to test classifying covid images through deep learning, perhaps building a neural net and running these images on that to see if I can get a better accuracy than 85%.
