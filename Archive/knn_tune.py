@@ -1,5 +1,5 @@
 # USAGE
-# python knn_tune.py --dataset kaggle_dogs_vs_cats
+# python knn_tune.py --dataset covid_images
 
 # import the necessary packages
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, train_test_split
