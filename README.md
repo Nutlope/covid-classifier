@@ -20,3 +20,8 @@ If you wish to run the script, you'll need Python 3.7 with the following modules
 
 - Tensorflow
 - Matplotlib
+- Sklearn
+- mlxtend
+- imutils
+- numpy
+- cv2

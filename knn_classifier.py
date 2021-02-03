@@ -1,23 +1,19 @@
 # USAGE - python knn_classifier.py --dataset covid_images
 
-# import the necessary packages
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from imutils import paths
 import numpy as np
 import argparse
-import imutils
 import cv2
 import os
 from mlxtend.plotting import plot_decision_regions
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-# np.set_printoptions(threshold=np.inf)
 
 def image_to_feature_vector(image, size=(32, 32)):
-	# resize the image to a fixed size, then flatten the image into
-	# a list of raw pixel intensities
+	# resize the image to a fixed size, then flatten the image into a list of raw pixel intensities
 	return cv2.resize(image, size).flatten()
 
 # construct the argument parse and parse the arguments
@@ -40,12 +36,14 @@ labels = []
 
 # loop over the input images
 for (i, imagePath) in enumerate(imagePaths):
+
 	# load the image and extract the class label
 	image = cv2.imread(imagePath)	
 	label = imagePath.split(os.path.sep)[-1].split(".")[0]
 
 	# extract raw pixel intensity features
 	pixels = image_to_feature_vector(image)
+
 	# update the raw images and labels matrices,
 	rawImages.append(pixels)
 	labels.append(label)
@@ -72,16 +70,13 @@ acc = model.score(testRI, testRL)
 # predictions = model.kneighbors_graph(testRI)
 print("[INFO] raw pixel accuracy: {:.2f}%".format(acc * 100))
 
-
 # Plotting decision thing
-
 for i, item in enumerate(trainRL):
 	if item == 'noncovid':
 		trainRL[i] = 0
 	else:
 		trainRL[i] = 1
 
-print("trainRI is", trainRI)
 y = trainRL.astype(np.integer)
 
 pca = PCA(n_components = 2)
